@@ -12,15 +12,36 @@
 			transform: rotate(90deg);
 			transform-origin: left top 0;
 		}
+		body{
+			background-color: #24478f;
+			color: white;
+		}
+		h1{
+			font-size: 40px;
+			font-family: Arial, Helvetica, sans-serif;
+			text-align: center;
+			text-decoration: underline;
+		}
+		#textOptions{
+			text-align: center;
+			padding-bottom: 50px;
+		}
+		table{
+			margin-left: auto;
+			margin-right: auto;
+		}
 	</style>
 </head>
 <body onload="makeTable()">
-	<label>Size</label> 
-	<select id="selectTable">
-	<option value="7">7</option>
-	<option value="13">13</option>	
-	</select>
-	<button onclick="makeTable()">NewTable</button>
+	<h1> Welcome to Picross-130 </h1>
+    <div id="textOptions">
+		<label>Size</label> 
+		<select id="selectTable">
+			<option value="7">7</option>
+			<option value="13">13</option>	
+		</select>
+		<button onclick="makeTable()">NewTable</button>
+	</div>
 	<table id="tableCreate"></table>
 	<script
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -28,24 +49,17 @@
 			  crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
-
 		var sampleArray = [];
 		var topNums = [];
 		var sideNums = [];
-
 		function makeTable() {
 			$('#tableCreate').empty();
-
 			var options = $('#selectTable option:selected');
-
 			var values = $.map(options ,function(option) {
    		 		return option.value;
 			});
-
 			var tableSet = values;
-
 			makePico(tableSet);
-
 			$('#tableCreate').append("<tbody>");
 			$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "\"></tr>");
 			$("#tr00").append("<td></td>");
@@ -61,7 +75,6 @@
 			}
 			$('#tableCreate').append("</tbody>");
 		}
-
 		function changeColor(i,j) {
 			var colorIndex = "#td"+i+"_"+j;
 			if (sampleArray[i][j]) {
@@ -70,11 +83,8 @@
 				$(colorIndex).css("background-color", "grey");
 			}
 		}
-
 		function makePico(dimensions) {
-
 			hotSpoints = dimensions * (dimensions/3);
-
 			for (var i = 0; i < dimensions; i++) {
 				sampleArray[i] = []
 				for (var j = 0; j < dimensions; j++) {
@@ -87,16 +97,12 @@
 					}
 				}
 			}
-
 			getSideNums(sampleArray);
 			console.log(sampleArray);
 			console.log(sideNums);
-
 		}
-
 		function getSideNums(PicoArray) {
 			sideNums = [];
-
 			for (var i = 0; i < PicoArray.length; i++) {
 				sideNums[i] = "";
 				var conNum = 0;
@@ -119,7 +125,6 @@
 				}
 			}
 		}
-
 	</script>
 </body>
 </html>

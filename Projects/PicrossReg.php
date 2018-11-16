@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	
 		if($mysqli->query($sql) === true){
 			$_SESSION['message'] = "Registration Successful! $username is added to the database!";
-			header("location: welcome.php");
+			header("location: picros.php");
 		}
 		else{
 			$_SESSION['message'] = "User can NOT be added to the database.";
