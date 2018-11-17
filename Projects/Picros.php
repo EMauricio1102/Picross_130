@@ -61,11 +61,38 @@
 			var tableSet = values;
 			makePico(tableSet);
 			$('#tableCreate').append("<tbody>");
-			$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "\"></tr>");
-			$("#tr00").append("<td></td>");
+			$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + 0 + "\"></tr>");
+			$("#tr000").append("<td></td>");
+
+			var longestString = 0;
+
 			for (var i = 0; i < tableSet; i++) {
-				$("#tr00").append("<td>" + 1+ "</td>");
+				var topNumString = topNums[i].trim();
+				var splitNums = topNumString.split(" ");
+				var splitLength = splitNums.length;
+				for(var t = 0; t < splitLength; t++) {
+					if(t > longestString) {
+						$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + t + "\"></tr>");
+						$("#tr00"+t).append("<td></td>");
+						longestString = t;
+					}
+				}
 			}
+
+			for (var i = 0; i < tableSet; i++) {
+				var topNumString = topNums[i].trim();
+				var splitNums = topNumString.split(" ");
+				var splitLength = splitNums.length;
+				for(var t = 0; t < splitLength; t++) {
+					$("#tr00" + t).append("<td>" + splitNums[t] + "</td>");
+				}
+				var holdLongString = longestString;
+				for(var t = 0; t < longestString; t++) {
+					if (splitLength < holdLongString) holdLongString--;
+					else $("#tr00"+(t+splitLength)).append("<td></td>");
+				}
+			}
+
 			for (var i = 0; i < tableSet; i++) {
 				$('#tableCreate').append("<tr id=\"tr" + i + "\"></tr>");
 				for(var j = 0; j < tableSet; j++) {
@@ -100,7 +127,10 @@
 			getSideNums(sampleArray);
 			console.log(sampleArray);
 			console.log(sideNums);
+			getTopNums(sampleArray)
+			console.log(topNums);
 		}
+
 		function getSideNums(PicoArray) {
 			sideNums = [];
 			for (var i = 0; i < PicoArray.length; i++) {
@@ -122,6 +152,31 @@
 				}
 				if (sideNums[i] == "") {
 					sideNums[i] = "0";
+				}
+			}
+		}
+
+		function getTopNums(PicoArray) {
+			topNums = [];
+			for (var i = 0; i < PicoArray.length; i++) {
+				topNums[i] = "";
+				var conNum = 0;
+				for (var j = 0; j < PicoArray.length; j++) {
+					if (sampleArray[j][i]) {
+						conNum++;
+						if (j == (PicoArray.length-1)) {
+								topNums[i] +=  conNum + " ";
+								conNum = 0;
+						}
+					} else {
+						if (conNum > 0) {
+							topNums[i] +=  conNum + " ";
+							conNum = 0;
+						}
+					}
+				}
+				if (topNums[i] == "") {
+					topNums[i] = "0";
 				}
 			}
 		}
