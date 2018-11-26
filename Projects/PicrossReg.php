@@ -1,7 +1,8 @@
 <?php
+//Config file
+require_once 'config_mysql.php';
 session_start();
 $_SESSION['message'] = '';
-$mysqli = new mysqli('localhost', 'root', 'mypass123', 'accounts');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	
@@ -18,10 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	
 		if($mysqli->query($sql) === true){
 			$_SESSION['message'] = "Registration Successful! $username is added to the database!";
+			$_SESSION['user_name'] = $username;
 			header("location: picros.php");
+			die();
 		}
 		else{
-			$_SESSION['message'] = "User can NOT be added to the database.";
+			$_SESSION['message'] = "User name or email.";
 		}
 	}
 	else {

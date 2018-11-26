@@ -33,7 +33,14 @@
 	</style>
 </head>
 <body onload="makeTable()">
-	<h1> Welcome to Picross-130 </h1>
+	<?php
+		session_start();
+		if(isset($_SESSION['user_name'])){
+			echo "<h1> Welcome to Picross-130, ". $_SESSION['user_name'] ."! </h1>";
+		} else {
+			echo "<h1> Welcome to Picross-130! </h1>";
+		}
+	?>
     <div id="textOptions">
 		<label>Size</label> 
 		<select id="selectTable">
