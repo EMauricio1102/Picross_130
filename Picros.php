@@ -14,7 +14,7 @@
 		.cell {
 			width: 30px;
 			height: 30px;
-			background-color: black;
+			background-color: white;
 		}
 
 		.cell:hover {
@@ -50,7 +50,7 @@
 		}
 
 		.cell {
-			border: 1px solid white;
+			border: 1px solid black;
 		}
 
 		.displayHint {
@@ -112,6 +112,7 @@
 		}
 	?>
 	
+	<!--Board Size options 7x7, 13x13-->
     <div id="textOptions">
 		<label>Size</label> 
 		<select id="selectTable"  onChange="changeTableSize(this.options[this.selectedIndex].text);">
@@ -122,6 +123,7 @@
 	</div>
 	<table id="tableCreate"></table>
 
+	<!--Picros Game Script-->
 	<script type="text/javascript">
 		var sampleArray = [];
 		var topNums = [];
@@ -129,16 +131,19 @@
 		var tableSize;
 		var displayHintSize;
 
+		//Adjust the table size from select option
 		function changeTableSize(size) {
 			tableSize = size;
 			displayHintSize = tableSize/2;
 		}
 
+		//use JQuery add table rows and td to tableCreate id
 		function makeTable() {
 			$('#tableCreate').empty();
 
 			makePico(tableSize);
 
+			//Create table body with adjusted top and sides for displaying hints
 			$('#tableCreate').append("<tbody>");
 			for(var i = 0; i < displayHintSize; i ++) {
 				$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + i + "\"></tr>");
@@ -150,6 +155,7 @@
 				}
 			}
 
+			//Display top hints (from top to bottom)
 			for (var i = 0; i < tableSize; i++) {
 				var topNumString = topNums[i].trim();
 				var splitNums = topNumString.split(" ");
@@ -160,6 +166,7 @@
 				}
 			}
 
+			//Display side hints (from left to right)
 			for (var i = 0; i < tableSize; i++) {
 				var sideNumsString = sideNums[i].trim();
 				var splitNums = sideNumsString.split(" ");
@@ -178,8 +185,15 @@
 				}
 			}
 			$('#tableCreate').append("</tbody>");
+
+			//Change table size on large tables
+			if (tableSize > 10) {
+				$(".cell").css("width", "20px");
+				$(".cell").css( "height", "20px");
+			}
 		}
 
+		//Change color of cells on click
 		function changeColor(i,j) {
 			var colorIndex = "#td"+i+"_"+j;
 			if (sampleArray[i][j]) {
@@ -189,14 +203,11 @@
 			}
 		}
 
+		//Make a random Pico board
 		function makePico(dimensions) {
-
 			hotSpoints = dimensions * (dimensions/3);
-
 			for (var i = 0; i < dimensions; i++) {
-
 				sampleArray[i] = [];
-
 				for (var j = 0; j < dimensions; j++) {
 					var hotSpot = Math.floor(Math.random() * Math.floor(2));
 					if (hotSpot && hotSpoints > 0) {
@@ -212,6 +223,7 @@
 			getTopNums(sampleArray);
 		}
 
+		//Get the consecutive numbers (left to right) as a string
 		function getSideNums(PicoArray) {
 			sideNums = [];
 			for (var i = 0; i < PicoArray.length; i++) {
@@ -237,10 +249,9 @@
 			}
 		}
 
+		//Get consecutive numbers (top to bottom) as a string
 		function getTopNums(PicoArray) {
-
 			topNums = [];
-
 			for (var i = 0; i < PicoArray.length; i++) {
 				topNums[i] = "";
 				var conNum = 0;
