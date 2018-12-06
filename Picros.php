@@ -142,9 +142,11 @@
 			$('#tableCreate').append("<tbody>");
 			for(var i = 0; i < displayHintSize; i ++) {
 				$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + i + "\"></tr>");
-				for(var j = 0; j <= tableSize; j++) {
+				for(var j = 0; j < displayHintSize; j++) {
+					$("#tr00"+i).append("<td></td>");
+				}
+				for(var j = 0; j < tableSize; j++) {
 					$("#tr00"+i).append("<td class=\"hintDisplay\" id=\"td00"+i+""+j+"\"></td>");
-					console.log(j);
 				}
 			}
 
@@ -152,16 +154,28 @@
 				var topNumString = topNums[i].trim();
 				var splitNums = topNumString.split(" ");
 				var splitLength = splitNums.length;
-				console.log(displayHintSize);
-				for (var t = 0; t < splitLength; t++) $("#td00"+(Math.floor(displayHintSize-t))+""+(i+1)).html(splitNums[t]);
+				var adjustedHintNum = Math.floor(displayHintSize);
+				for (var t = 0; t < splitLength; t++) {
+					$("#td00"+(adjustedHintNum-t)+""+i).html(splitNums[(splitLength-t-1)]);
+				}
 			}
 
 			for (var i = 0; i < tableSize; i++) {
+				var sideNumsString = sideNums[i].trim();
+				var splitNums = sideNumsString.split(" ");
+				var splitLength = splitNums.length;
 				$('#tableCreate').append("<tr id=\"tr" + i + "\"></tr>");
+				for (var t = Math.floor(displayHintSize); t >= 0; t--) {
+					if (t < splitLength) {
+						$("#tr"+i).append("<td class=\"hintDisplay\">" + splitNums[(splitLength-t-1)] + "</td>");
+					} else {
+						$("#tr"+i).append("<td class=\"hintDisplay\"></td>");
+					}
+				}
+
 				for(var j = 0; j < tableSize; j++) {
-					if(j==0)  $("#tr"+i).append("<td>" + sideNums[i] + "</td>");
 					$("#tr"+i).append("<td class=\"cell\" id=\"td" + i + "_" + j + "\" onclick=\"changeColor(" + i + "," + j + ")\"></td>");
-					}	
+				}
 			}
 			$('#tableCreate').append("</tbody>");
 		}
