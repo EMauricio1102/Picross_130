@@ -32,7 +32,7 @@
 		}
 	</style>
 </head>
-<body onload="makeTable()">
+<body onload="changeTableSize(7);makeTable()">
 	<?php
 		session_start();
 		if(isset($_SESSION['user_name'])){
@@ -43,7 +43,7 @@
 	?>
     <div id="textOptions">
 		<label>Size</label> 
-		<select id="selectTable">
+		<select id="selectTable" onChange="changeTableSize(this.options[this.selectedIndex].text);">
 			<option value="7">7</option>
 			<option value="13">13</option>	
 		</select>
@@ -59,21 +59,24 @@
 		var sampleArray = [];
 		var topNums = [];
 		var sideNums = [];
+		var tableSize;
+
+		function changeTableSize(size) {
+			tableSize = size;
+		}
+
 		function makeTable() {
 			$('#tableCreate').empty();
-			var options = $('#selectTable option:selected');
-			var values = $.map(options ,function(option) {
-   		 		return option.value;
-			});
-			var tableSet = values;
-			makePico(tableSet);
+
+			makePico(tableSize);
+
 			$('#tableCreate').append("<tbody>");
 			$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + 0 + "\"></tr>");
 			$("#tr000").append("<td></td>");
 
 			var longestString = 0;
 
-			for (var i = 0; i < tableSet; i++) {
+			for (var i = 0; i < tableSize; i++) {
 				var topNumString = topNums[i].trim();
 				var splitNums = topNumString.split(" ");
 				var splitLength = splitNums.length;
@@ -86,7 +89,7 @@
 				}
 			}
 
-			for (var i = 0; i < tableSet; i++) {
+			for (var i = 0; i < tableSize; i++) {
 				var topNumString = topNums[i].trim();
 				var splitNums = topNumString.split(" ");
 				var splitLength = splitNums.length;
@@ -100,15 +103,16 @@
 				}
 			}
 
-			for (var i = 0; i < tableSet; i++) {
+			for (var i = 0; i < tableSize; i++) {
 				$('#tableCreate').append("<tr id=\"tr" + i + "\"></tr>");
-				for(var j = 0; j < tableSet; j++) {
+				for(var j = 0; j < tableSize; j++) {
 					if(j==0)  $("#tr"+i).append("<td>" + sideNums[i] + "</td>");
 					$("#tr"+i).append("<td id=\"td" + i + "_" + j + "\" class=\"cell\" onclick=\"changeColor(" + i + "," + j + ")\"></td>");
 					}	
 			}
 			$('#tableCreate').append("</tbody>");
 		}
+
 		function changeColor(i,j) {
 			var colorIndex = "#td"+i+"_"+j;
 			if (sampleArray[i][j]) {
@@ -117,10 +121,15 @@
 				$(colorIndex).css("background-color", "grey");
 			}
 		}
+
 		function makePico(dimensions) {
+
 			hotSpoints = dimensions * (dimensions/3);
+
 			for (var i = 0; i < dimensions; i++) {
-				sampleArray[i] = []
+
+				sampleArray[i] = [];
+
 				for (var j = 0; j < dimensions; j++) {
 					var hotSpot = Math.floor(Math.random() * Math.floor(2));
 					if (hotSpot && hotSpoints > 0) {
@@ -131,11 +140,9 @@
 					}
 				}
 			}
+
 			getSideNums(sampleArray);
-			console.log(sampleArray);
-			console.log(sideNums);
 			getTopNums(sampleArray)
-			console.log(topNums);
 		}
 
 		function getSideNums(PicoArray) {
