@@ -2,38 +2,67 @@
 <html>
 <head>
 	<title>Picros</title>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"></script>
 	<style type="text/css">
+		html body {
+			margin: 0;
+			padding: 0;
+		}
+
 		.cell {
 			width: 30px;
 			height: 30px;
 			background-color: black;
 		}
+
+		.cell:hover {
+			background-color: #67C8FF;
+		}
+
 		.vertical-text {
 			transform: rotate(90deg);
 			transform-origin: left top 0;
 		}
+
 		body{
 			background-color: #24478f;
 			color: white;
 		}
+
 		h1{
 			font-size: 40px;
 			font-family: Arial, Helvetica, sans-serif;
 			text-align: center;
 			text-decoration: underline;
 		}
+
 		#textOptions{
 			text-align: center;
 			padding-bottom: 50px;
 		}
+
 		table{
 			margin-left: auto;
 			margin-right: auto;
+			border-collapse: collapse;
+		}
+
+		.cell {
+			border: 1px solid white;
+		}
+
+		.displayHint {
+			width: 30px;
+			height: 20px;
 		}
 		
 		.topnav {
-		  overflow: hidden;
-		  background-color: #173048;
+			margin: 0;
+			padding: 0;
+		  	overflow: hidden;
+		  	background-color: #173048;
 		}
 
 		.topnav a {
@@ -62,6 +91,7 @@
 		.topnav a.active {
 		  background-color: #21b0f1;
 		  color: white;
+		}
 	</style>
 </head>
 <body onload="changeTableSize(7);makeTable()">
@@ -91,19 +121,17 @@
 		<button onclick="makeTable()">NewTable</button>
 	</div>
 	<table id="tableCreate"></table>
-	<script
-			  src="https://code.jquery.com/jquery-3.3.1.min.js"
-			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
 		var sampleArray = [];
 		var topNums = [];
 		var sideNums = [];
 		var tableSize;
+		var displayHintSize;
 
 		function changeTableSize(size) {
 			tableSize = size;
+			displayHintSize = tableSize/2;
 		}
 
 		function makeTable() {
@@ -112,21 +140,11 @@
 			makePico(tableSize);
 
 			$('#tableCreate').append("<tbody>");
-			$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + 0 + "\"></tr>");
-			$("#tr000").append("<td></td>");
-
-			var longestString = 0;
-
-			for (var i = 0; i < tableSize; i++) {
-				var topNumString = topNums[i].trim();
-				var splitNums = topNumString.split(" ");
-				var splitLength = splitNums.length;
-				for(var t = 0; t < splitLength; t++) {
-					if(t > longestString) {
-						$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + t + "\"></tr>");
-						$("#tr00"+t).append("<td></td>");
-						longestString = t;
-					}
+			for(var i = 0; i < displayHintSize; i ++) {
+				$('#tableCreate').append("<tr id=\"tr" + 0 + "" + 0 + "" + i + "\"></tr>");
+				for(var j = 0; j <= tableSize; j++) {
+					$("#tr00"+i).append("<td class=\"hintDisplay\" id=\"td00"+i+""+j+"\"></td>");
+					console.log(j);
 				}
 			}
 
@@ -134,21 +152,15 @@
 				var topNumString = topNums[i].trim();
 				var splitNums = topNumString.split(" ");
 				var splitLength = splitNums.length;
-				for(var t = 0; t < splitLength; t++) {
-					$("#tr00" + t).append("<td>" + splitNums[t] + "</td>");
-				}
-				var holdLongString = longestString;
-				for(var t = 0; t < longestString; t++) {
-					if (splitLength < holdLongString) holdLongString--;
-					else $("#tr00"+(t+splitLength)).append("<td></td>");
-				}
+				console.log(displayHintSize);
+				for (var t = 0; t < splitLength; t++) $("#td00"+(Math.floor(displayHintSize-t))+""+(i+1)).html(splitNums[t]);
 			}
 
 			for (var i = 0; i < tableSize; i++) {
 				$('#tableCreate').append("<tr id=\"tr" + i + "\"></tr>");
 				for(var j = 0; j < tableSize; j++) {
 					if(j==0)  $("#tr"+i).append("<td>" + sideNums[i] + "</td>");
-					$("#tr"+i).append("<td id=\"td" + i + "_" + j + "\" class=\"cell\" onclick=\"changeColor(" + i + "," + j + ")\"></td>");
+					$("#tr"+i).append("<td class=\"cell\" id=\"td" + i + "_" + j + "\" onclick=\"changeColor(" + i + "," + j + ")\"></td>");
 					}	
 			}
 			$('#tableCreate').append("</tbody>");
@@ -183,7 +195,7 @@
 			}
 
 			getSideNums(sampleArray);
-			getTopNums(sampleArray)
+			getTopNums(sampleArray);
 		}
 
 		function getSideNums(PicoArray) {
@@ -212,7 +224,9 @@
 		}
 
 		function getTopNums(PicoArray) {
+
 			topNums = [];
+
 			for (var i = 0; i < PicoArray.length; i++) {
 				topNums[i] = "";
 				var conNum = 0;
