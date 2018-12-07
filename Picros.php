@@ -214,6 +214,7 @@
 
 			updateBoard();
 			start();
+			$('.ScoreBoard').html("Correct: 0 &emsp; &emsp; &emsp; Wrong: 0");
 		}
 
 		//Change color of cells on click
