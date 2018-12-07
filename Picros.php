@@ -34,8 +34,6 @@
 		}
 
 		#textOptions{
-			text-align: center;
-			padding-bottom: 50px;
 		}
 
 		table{
@@ -46,6 +44,11 @@
 
 		.cell {
 			border: 1px solid black;
+		}
+
+		.Timer {
+			font-size: 20px;
+			margin-left: 40%
 		}
 
 		.displayHint {
@@ -89,7 +92,7 @@
 		}
 	</style>
 </head>
-<body onload="changeTableSize(7);makeTable()">
+<body onload="changeTableSize(7);makeTable();start()">
 
 	
 	<?php
@@ -101,7 +104,7 @@
 			echo "<a href=\"#Tuts\">Tutorial</a>";
 			echo "<aside>".$user."</aside>";
 			echo "</div>";
-			echo "<h1> Welcome to Picross-130, ". $_SESSION['user_name'] ."! </h1>";
+			echo "<div class=\"Timer\">Time: 0 seconds</div>";
 		} else {
 			header("location: Login.php");
 		}
@@ -140,6 +143,8 @@
 		var sideNums = [];
 		var tableSize;
 		var displayHintSize;
+		var totalTime = 0;
+		var timer;
 
 		//Adjust the table size from select option
 		function changeTableSize(size) {
@@ -203,6 +208,7 @@
 			}
 
 			updateBoard();
+			start();
 		}
 
 		//Change color of cells on click
@@ -296,6 +302,17 @@
 			var blue = $('#blue').val();
 
 			$('.hidden').css('background-color', 'rgb('+red+','+green+','+blue);
+		}
+
+		function start() {
+			$('.Timer').text("Time: 0 seconds");
+			clearInterval(timer);
+			var start = new Date;
+
+			timer = setInterval(function() {
+				totalTime = Math.round((new Date - start) / 1000);
+    			$('.Timer').text("Time: " + totalTime + " seconds");
+			}, 1000);
 		}
 
 		$('.cell').hover(function(){
