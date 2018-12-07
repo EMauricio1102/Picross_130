@@ -145,6 +145,8 @@
 		var displayHintSize;
 		var totalTime = 0;
 		var timer;
+		var WinningNumer = 0;
+		var totalWinSpace = 0;
 
 		//Adjust the table size from select option
 		function changeTableSize(size) {
@@ -214,25 +216,30 @@
 		//Change color of cells on click
 		function changeColor(i,j) {
 			var colorIndex = "#td"+i+"_"+j;
-			if (sampleArray[i][j]) {
-				$(colorIndex).css("background-color", "blue");
-			} else {
-				$(colorIndex).css("background-color", "grey");
+			if($(colorIndex).hasClass('hidden')) {
+				if (sampleArray[i][j]) {
+					$(colorIndex).css("background-color", "blue");
+					WinningNumer++;
+					if (WinningNumer == totalWinSpace) {
+						clearInterval(timer);
+						$('.Timer').text("You have won! Final time: " + totalTime + " seconds");
+					}
+				} else {
+					$(colorIndex).css("background-color", "grey");
+				}
+				$(colorIndex).toggleClass('hidden');
 			}
-
-			$(colorIndex).toggleClass('hidden');
 		}
 
 		//Make a random Pico board
 		function makePico(dimensions) {
-			hotSpoints = dimensions * (dimensions/3);
 			for (var i = 0; i < dimensions; i++) {
 				sampleArray[i] = [];
 				for (var j = 0; j < dimensions; j++) {
 					var hotSpot = Math.floor(Math.random() * Math.floor(2));
-					if (hotSpot && hotSpoints > 0) {
+					if (hotSpot) {
 						sampleArray[i][j] = hotSpot;
-						hotSpoints--;
+						++totalWinSpace;
 					} else {
 						sampleArray[i][j] = 0;
 					}
