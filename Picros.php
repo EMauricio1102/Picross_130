@@ -14,11 +14,6 @@
 		.cell {
 			width: 30px;
 			height: 30px;
-			background-color: white;
-		}
-
-		.cell:hover {
-			background-color: #67C8FF;
 		}
 
 		.vertical-text {
@@ -111,7 +106,7 @@
 			header("location: Login.php");
 		}
 	?>
-	
+
 	<!--Board Size options 7x7, 13x13-->
     <div id="textOptions">
 		<label>Size</label> 
@@ -121,7 +116,22 @@
 		</select>
 		<button onclick="makeTable()">NewTable</button>
 	</div>
-	<table id="tableCreate"></table>
+	<!--Change Board -->
+	<div id="changeColor" style="float:left;width: 25%;margin:0;overflow: hidden;">
+		<label><u>Board Color</u></label><br>
+		<label>Red (0-255)  </label><br>
+		<input class="floatLeft" type="number" id="red" name="red" min="0" max="255" value="255"><br>
+		<label>Blue (0-255) </label><br>
+		<input class="floatLeft" type="number" id="blue" name="red" min="0" max="255" value="255"><br>
+		<label>Green (0-255)</label><br>
+		<input class="floatLeft" type="number" id="green" name="red" min="0" max="255" value="255"><br>
+		<button onclick="updateBoard()">Update Board Color</button>
+	</div>
+	
+
+	<div style="float: left; width:75%;margin:0;overflow: hidden;">
+		<table id="tableCreate" style="margin-left:20%;margin-right: 20%;"></table>
+	</div>
 
 	<!--Picros Game Script-->
 	<script type="text/javascript">
@@ -181,7 +191,7 @@
 				}
 
 				for(var j = 0; j < tableSize; j++) {
-					$("#tr"+i).append("<td class=\"cell\" id=\"td" + i + "_" + j + "\" onclick=\"changeColor(" + i + "," + j + ")\"></td>");
+					$("#tr"+i).append("<td class=\"cell hidden\" id=\"td" + i + "_" + j + "\" onclick=\"changeColor(" + i + "," + j + ")\"></td>");
 				}
 			}
 			$('#tableCreate').append("</tbody>");
@@ -191,6 +201,8 @@
 				$(".cell").css("width", "20px");
 				$(".cell").css( "height", "20px");
 			}
+
+			updateBoard();
 		}
 
 		//Change color of cells on click
@@ -201,6 +213,8 @@
 			} else {
 				$(colorIndex).css("background-color", "grey");
 			}
+
+			$(colorIndex).toggleClass('hidden');
 		}
 
 		//Make a random Pico board
@@ -274,6 +288,19 @@
 				}
 			}
 		}
+
+		//Update board color
+		function updateBoard(){
+			var red = $('#red').val();
+			var green = $('#green').val();
+			var blue = $('#blue').val();
+
+			$('.hidden').css('background-color', 'rgb('+red+','+green+','+blue);
+		}
+
+		$('.cell').hover(function(){
+			$('.cell').css('background-color', '#42d7f4');
+		});
 	</script>
 </body>
 </html>
