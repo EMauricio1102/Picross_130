@@ -115,7 +115,7 @@
 			<option value="7">7</option>
 			<option value="13">13</option>	
 		</select>
-		<button onclick="makeTable()">NewTable</button>
+		<button onclick="makeTable()">New Game</button>
 	</div>
 	<!--Change Board -->
 	<div id="changeColor" style="float:left;width: 25%;margin:0;overflow: hidden;">
@@ -126,7 +126,8 @@
 		<input class="floatLeft" type="number" id="blue" name="red" min="0" max="255" value="255"><br>
 		<label>Green (0-255)</label><br>
 		<input class="floatLeft" type="number" id="green" name="red" min="0" max="255" value="255"><br>
-		<button onclick="updateBoard()">Update Board Color</button>
+		<button onclick="updateBlocks()">Update Picross Blocks</button><br>
+		<button onclick="updateGrid()">Update Grid</button>
 	</div>
 	
 
@@ -142,6 +143,9 @@
 		var sideNums = [];
 		var tableSize;
 		var displayHintSize;
+		//Color Vars
+		var BlockR = BlockG = BlockB = 255;
+		var GridR = GridG = GridB = 0;
 		//Time Variables
 		var totalTime = 0;
 		var timer;
@@ -212,7 +216,8 @@
 				$(".cell").css( "height", "20px");
 			}
 
-			updateBoard();
+			$('.hidden').css('background-color', 'rgb('+BlockR+','+BlockG+','+BlockB+')');
+			$('.cell').css('border-color', 'rgb('+GridR+','+GridG+','+GridB+')');
 			start();
 			$('.ScoreBoard').html("Correct: 0 &emsp; &emsp; &emsp; Wrong: 0");
 		}
@@ -309,13 +314,22 @@
 			}
 		}
 
-		//Update board color
-		function updateBoard(){
-			var red = $('#red').val();
-			var green = $('#green').val();
-			var blue = $('#blue').val();
+		//Update Block Color
+		function updateBlocks(){
+			BlockR = $('#red').val();
+			BlockG = $('#green').val();
+			BlockB = $('#blue').val();
 
-			$('.hidden').css('background-color', 'rgb('+red+','+green+','+blue);
+			$('.hidden').css('background-color', 'rgb('+BlockR+','+BlockG+','+BlockB+')');
+		}
+
+		//Update Grid Color
+		function updateGrid() {
+			GridR = $('#red').val();
+			GridG = $('#green').val();
+			GridB = $('#blue').val();
+
+			$('.cell').css('border-color', 'rgb('+GridR+','+GridG+','+GridB+')');
 		}
 
 		//Toggle the timer
