@@ -33,9 +33,6 @@
 			text-decoration: underline;
 		}
 
-		#textOptions{
-		}
-
 		table{
 			margin-left: auto;
 			margin-right: auto;
@@ -46,7 +43,7 @@
 			border: 1px solid black;
 		}
 
-		.Timer {
+		.Timer, .ScoreBoard{
 			font-size: 20px;
 			margin-left: 40%
 		}
@@ -104,7 +101,8 @@
 			echo "<a href=\"#Tuts\">Tutorial</a>";
 			echo "<aside>".$user."</aside>";
 			echo "</div>";
-			echo "<div class=\"Timer\">Time: 0 seconds</div>";
+			echo "<div class=\"Timer\">&emsp; &emsp;Time: &emsp; &emsp; 0 seconds</div>";
+			echo "<div class=\"ScoreBoard\">Correct: 0 &emsp; &emsp; &emsp; Wrong: 0 </div>";
 		} else {
 			header("location: Login.php");
 		}
@@ -138,15 +136,20 @@
 
 	<!--Picros Game Script-->
 	<script type="text/javascript">
+		//Grid variables
 		var sampleArray = [];
 		var topNums = [];
 		var sideNums = [];
 		var tableSize;
 		var displayHintSize;
+		//Time Variables
 		var totalTime = 0;
 		var timer;
+		//Game variables
 		var WinningNumer = 0;
 		var totalWinSpace = 0;
+		var Correct = 0;
+		var Wrong = 0;
 
 		//Adjust the table size from select option
 		function changeTableSize(size) {
@@ -220,14 +223,17 @@
 				if (sampleArray[i][j]) {
 					$(colorIndex).css("background-color", "blue");
 					WinningNumer++;
+					Correct++;
 					if (WinningNumer == totalWinSpace) {
 						clearInterval(timer);
 						$('.Timer').text("You have won! Final time: " + totalTime + " seconds");
 					}
 				} else {
+					Wrong++;
 					$(colorIndex).css("background-color", "grey");
 				}
 				$(colorIndex).toggleClass('hidden');
+				$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; Wrong: " + Wrong);
 			}
 		}
 
@@ -311,14 +317,15 @@
 			$('.hidden').css('background-color', 'rgb('+red+','+green+','+blue);
 		}
 
+		//Toggle the timer
 		function start() {
-			$('.Timer').text("Time: 0 seconds");
+			$('.Timer').html("&emsp; Time: &emsp; &emsp; 0 seconds");
 			clearInterval(timer);
 			var start = new Date;
 
 			timer = setInterval(function() {
 				totalTime = Math.round((new Date - start) / 1000);
-    			$('.Timer').text("Time: " + totalTime + " seconds");
+    			$('.Timer').html("&emsp; Time: &emsp; &emsp;" + totalTime + " seconds");
 			}, 1000);
 		}
 
