@@ -126,7 +126,7 @@
 		<input class="floatLeft" type="number" id="blue" name="red" min="0" max="255" value="255"><br>
 		<label>Green (0-255)</label><br>
 		<input class="floatLeft" type="number" id="green" name="red" min="0" max="255" value="255"><br>
-		<button onclick="updateBlocks()">Update Picross Blocks</button><br>
+		<button onclick="updateBlocks()">Update Blocks</button><br>
 		<button onclick="updateGrid()">Update Grid</button>
 	</div>
 	
@@ -236,7 +236,12 @@
 					}
 				} else {
 					Wrong++;
-					$(colorIndex).css("background-color", "grey");
+					$(colorIndex).css("background-color", "silver");
+					$(colorIndex).html("X");
+					$(colorIndex).css("color", "red");
+					$(colorIndex).css("text-align", "center");
+					if(tableSize < 10) $(colorIndex).css("font-size", "25px");
+					else $(colorIndex).css("font-size", "10px");
 				}
 				$(colorIndex).toggleClass('hidden');
 				$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; Wrong: " + Wrong);
