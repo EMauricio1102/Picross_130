@@ -43,7 +43,7 @@
 			border: 1px solid black;
 		}
 
-		.Timer, .ScoreBoard{
+		.Timer, .ScoreBoard, .TotalBlocks{
 			font-size: 20px;
 			margin-left: 40%
 		}
@@ -83,6 +83,10 @@
 		  color: black;
 		}
 
+		.hidden td:hover {
+			background-color: black;
+		}
+
 		.topnav a.active {
 		  background-color: #21b0f1;
 		  color: white;
@@ -103,6 +107,7 @@
 			echo "</div>";
 			echo "<div class=\"Timer\">&emsp; &emsp;Time: &emsp; &emsp; 0 seconds</div>";
 			echo "<div class=\"ScoreBoard\">Correct: 0 &emsp; &emsp; &emsp; Wrong: 0 </div>";
+			echo "<div class=\"TotalBlocks\"></div>";
 		} else {
 			header("location: Login.php");
 		}
@@ -154,6 +159,8 @@
 		var totalWinSpace = 0;
 		var Correct = 0;
 		var Wrong = 0;
+		var TotalBlocks;
+		var Revealed = 0;
 
 		//Adjust the table size from select option
 		function changeTableSize(size) {
@@ -219,7 +226,9 @@
 			$('.hidden').css('background-color', 'rgb('+BlockR+','+BlockG+','+BlockB+')');
 			$('.cell').css('border-color', 'rgb('+GridR+','+GridG+','+GridB+')');
 			start();
-			$('.ScoreBoard').html("Correct: 0 &emsp; &emsp; &emsp; Wrong: 0");
+			$('.ScoreBoard').html("Correct: 0 &emsp; &emsp; &emsp; &emsp; Wrong: 0");
+			Correct = Wrong = 0;
+			$('.TotalBlocks').html("Total Blocks: " + TotalBlocks + " &emsp; &emsp; Revealed: 0");
 		}
 
 		//Change color of cells on click
@@ -230,9 +239,10 @@
 					$(colorIndex).css("background-color", "blue");
 					WinningNumer++;
 					Correct++;
+					Revealed++;
 					if (WinningNumer == totalWinSpace) {
 						clearInterval(timer);
-						$('.Timer').text("You have won! Final time: " + totalTime + " seconds");
+						$('.Timer').html("You won! Final time: " + totalTime + " seconds");
 					}
 				} else {
 					Wrong++;
@@ -242,21 +252,24 @@
 					$(colorIndex).css("text-align", "center");
 					if(tableSize < 10) $(colorIndex).css("font-size", "25px");
 					else $(colorIndex).css("font-size", "10px");
+					Revealed++;
 				}
 				$(colorIndex).toggleClass('hidden');
-				$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; Wrong: " + Wrong);
+				$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; &emsp; Wrong: " + Wrong);
+				$('.TotalBlocks').html("Total Blocks: " + TotalBlocks + " &emsp; &emsp; Revealed: " + Revealed);
 			}
 		}
 
 		//Make a random Pico board
 		function makePico(dimensions) {
+			TotalBlocks = dimensions * dimensions;
 			for (var i = 0; i < dimensions; i++) {
 				sampleArray[i] = [];
 				for (var j = 0; j < dimensions; j++) {
 					var hotSpot = Math.floor(Math.random() * Math.floor(2));
 					if (hotSpot) {
 						sampleArray[i][j] = hotSpot;
-						++totalWinSpace;
+						totalWinSpace++;
 					} else {
 						sampleArray[i][j] = 0;
 					}
@@ -339,19 +352,15 @@
 
 		//Toggle the timer
 		function start() {
-			$('.Timer').html("&emsp; Time: &emsp; &emsp; 0 seconds");
+			$('.Timer').html("Time: &emsp; &emsp; &emsp; &emsp; &emsp; 0 seconds");
 			clearInterval(timer);
 			var start = new Date;
 
 			timer = setInterval(function() {
 				totalTime = Math.round((new Date - start) / 1000);
-    			$('.Timer').html("&emsp; Time: &emsp; &emsp;" + totalTime + " seconds");
+    			$('.Timer').html("Time: &emsp; &emsp; &emsp; &emsp; &emsp;" + totalTime + " seconds");
 			}, 1000);
 		}
-
-		$('.cell').hover(function(){
-			$('.cell').css('background-color', '#42d7f4');
-		});
 	</script>
 </body>
 </html>
