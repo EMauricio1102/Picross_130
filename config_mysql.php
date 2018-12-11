@@ -2,8 +2,8 @@
 /* Database credentials.*/
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'password');
-define('DB_NAME', 'picross');
+define('DB_PASSWORD', 'mypass123');
+define('DB_NAME', 'accounts');
 
 //Connect to MySQL database
 $mysqli = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);

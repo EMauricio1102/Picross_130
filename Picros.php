@@ -22,6 +22,7 @@
 		}
 
 		body{
+			font-family: Arial Helvetica, sans-serif;
 			background-color: #24478f;
 			color: white;
 		}
@@ -32,8 +33,12 @@
 			text-align: center;
 			text-decoration: underline;
 		}
+		h2{
+			text-decoration: underline;
+		}
 
 		table{
+			text-align: center;
 			margin-left: auto;
 			margin-right: auto;
 			border-collapse: collapse;
@@ -43,7 +48,7 @@
 			border: 1px solid black;
 		}
 
-		.Timer, .ScoreBoard, .TotalBlocks{
+		.Timer, .ScoreBoard{
 			font-size: 20px;
 			margin-left: 40%
 		}
@@ -83,14 +88,26 @@
 		  color: black;
 		}
 
-		.hidden td:hover {
-			background-color: black;
-		}
-
 		.topnav a.active {
 		  background-color: #21b0f1;
 		  color: white;
 		}
+		#gameOptions{
+			text-align: center;
+			width: 175px;
+			margin: 10px;
+			padding: 20px;
+			border-top-style: dotted;
+			border-bottom-style: dotted;
+			border-left-style: solid;
+			border-right-style: solid;
+			position: absolute;
+		}
+		#tableCreate{
+			margin-top: 25px;
+		
+		}
+
 	</style>
 </head>
 <body onload="changeTableSize(7);makeTable();start()">
@@ -101,43 +118,41 @@
 		if(isset($_SESSION['user_name'])){
 			$user = $_SESSION['user_name'];
 			echo "<div class=\"topnav\">";
-			echo "<a class=\"active\" href=\"#Game\">Game</a>";
-			echo "<a href=\"#Tuts\">Tutorial</a>";
+			echo "<a class=\"active\" href=\"Picross.php\">Game</a>";
+			echo "<a href=\"Tutorial.php\">Tutorial</a>";
 			echo "<aside>".$user."</aside>";
 			echo "</div>";
 			echo "<div class=\"Timer\">&emsp; &emsp;Time: &emsp; &emsp; 0 seconds</div>";
 			echo "<div class=\"ScoreBoard\">Correct: 0 &emsp; &emsp; &emsp; Wrong: 0 </div>";
-			echo "<div class=\"TotalBlocks\"></div>";
 		} else {
 			header("location: Login.php");
 		}
 	?>
-
-	<!--Board Size options 7x7, 13x13-->
-    <div id="textOptions">
-		<label>Size</label> 
-		<select id="selectTable"  onChange="changeTableSize(this.options[this.selectedIndex].text);">
-			<option value="7">7</option>
-			<option value="13">13</option>	
-		</select>
-		<button onclick="makeTable()">New Game</button>
-	</div>
-	<!--Change Board -->
-	<div id="changeColor" style="float:left;width: 25%;margin:0;overflow: hidden;">
-		<label><u>Board Color</u></label><br>
-		<label>Red (0-255)  </label><br>
-		<input class="floatLeft" type="number" id="red" name="red" min="0" max="255" value="255"><br>
-		<label>Blue (0-255) </label><br>
-		<input class="floatLeft" type="number" id="blue" name="red" min="0" max="255" value="255"><br>
-		<label>Green (0-255)</label><br>
-		<input class="floatLeft" type="number" id="green" name="red" min="0" max="255" value="255"><br>
-		<button onclick="updateBlocks()">Update Blocks</button><br>
-		<button onclick="updateGrid()">Update Grid</button>
-	</div>
 	
+	<!--Board Size options 7x7, 13x13-->
+	<div id="gameOptions">
+		<h2> Game Options </h2>
+			<label>Size</label> 
+			<select id="selectTable"  onChange="changeTableSize(this.options[this.selectedIndex].text);">
+				<option value="7">7</option>
+				<option value="13">13</option>	
+			</select><br>
+			<button onclick="makeTable()">New Game</button>
+		<br><br>
+		<!--Change Board -->
+			<label><u>Board Color</u></label><br>
+			<label>Red (0-255)  </label>
+			<input class="floatLeft" type="number" id="red" name="red" min="0" max="255" value="255"><br><br>
+			<label>Blue (0-255) </label>
+			<input class="floatLeft" type="number" id="blue" name="red" min="0" max="255" value="255"><br><br>
+			<label>Green (0-255)</label>
+			<input class="floatLeft" type="number" id="green" name="red" min="0" max="255" value="255"><br><br>
+			<button onclick="updateBlocks()">Update Picross Blocks</button><br>
+			<button onclick="updateGrid()">Update Grid</button>
+	</div>
 
-	<div style="float: left; width:75%;margin:0;overflow: hidden;">
-		<table id="tableCreate" style="margin-left:20%;margin-right: 20%;"></table>
+	<div style="float: left; width:95%;margin:0;overflow: hidden;">
+		<table id="tableCreate" align="center"></table>
 	</div>
 
 	<!--Picros Game Script-->
@@ -159,8 +174,6 @@
 		var totalWinSpace = 0;
 		var Correct = 0;
 		var Wrong = 0;
-		var TotalBlocks;
-		var Revealed = 0;
 
 		//Adjust the table size from select option
 		function changeTableSize(size) {
@@ -226,9 +239,7 @@
 			$('.hidden').css('background-color', 'rgb('+BlockR+','+BlockG+','+BlockB+')');
 			$('.cell').css('border-color', 'rgb('+GridR+','+GridG+','+GridB+')');
 			start();
-			$('.ScoreBoard').html("Correct: 0 &emsp; &emsp; &emsp; &emsp; Wrong: 0");
-			Correct = Wrong = 0;
-			$('.TotalBlocks').html("Total Blocks: " + TotalBlocks + " &emsp; &emsp; Revealed: 0");
+			$('.ScoreBoard').html("Correct: 0 &emsp; &emsp; &emsp; Wrong: 0");
 		}
 
 		//Change color of cells on click
@@ -239,37 +250,28 @@
 					$(colorIndex).css("background-color", "blue");
 					WinningNumer++;
 					Correct++;
-					Revealed++;
 					if (WinningNumer == totalWinSpace) {
 						clearInterval(timer);
-						$('.Timer').html("You won! Final time: " + totalTime + " seconds");
+						$('.Timer').text("You have won! Final time: " + totalTime + " seconds");
 					}
 				} else {
 					Wrong++;
-					$(colorIndex).css("background-color", "silver");
-					$(colorIndex).html("X");
-					$(colorIndex).css("color", "red");
-					$(colorIndex).css("text-align", "center");
-					if(tableSize < 10) $(colorIndex).css("font-size", "25px");
-					else $(colorIndex).css("font-size", "10px");
-					Revealed++;
+					$(colorIndex).css("background-color", "grey");
 				}
 				$(colorIndex).toggleClass('hidden');
-				$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; &emsp; Wrong: " + Wrong);
-				$('.TotalBlocks').html("Total Blocks: " + TotalBlocks + " &emsp; &emsp; Revealed: " + Revealed);
+				$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; Wrong: " + Wrong);
 			}
 		}
 
 		//Make a random Pico board
 		function makePico(dimensions) {
-			TotalBlocks = dimensions * dimensions;
 			for (var i = 0; i < dimensions; i++) {
 				sampleArray[i] = [];
 				for (var j = 0; j < dimensions; j++) {
 					var hotSpot = Math.floor(Math.random() * Math.floor(2));
 					if (hotSpot) {
 						sampleArray[i][j] = hotSpot;
-						totalWinSpace++;
+						++totalWinSpace;
 					} else {
 						sampleArray[i][j] = 0;
 					}
@@ -352,15 +354,19 @@
 
 		//Toggle the timer
 		function start() {
-			$('.Timer').html("Time: &emsp; &emsp; &emsp; &emsp; &emsp; 0 seconds");
+			$('.Timer').html("&emsp; Time: &emsp; &emsp; 0 seconds");
 			clearInterval(timer);
 			var start = new Date;
 
 			timer = setInterval(function() {
 				totalTime = Math.round((new Date - start) / 1000);
-    			$('.Timer').html("Time: &emsp; &emsp; &emsp; &emsp; &emsp;" + totalTime + " seconds");
+    			$('.Timer').html("&emsp; Time: &emsp; &emsp;" + totalTime + " seconds");
 			}, 1000);
 		}
+
+		$('.cell').hover(function(){
+			$('.cell').css('background-color', '#42d7f4');
+		});
 	</script>
 </body>
 </html>
