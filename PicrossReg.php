@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_SESSION['username'] = $username;
 				$_SESSION['avatar'] = $avatar_path;
 				
-				$sql = "INSERT INTO users (username, email, password, avatar) "
+				$sql = "INSERT INTO Players (username, email, password, avatar) "
 						. "VALUES ('$username', '$email', '$password', '$avatar_path')";
 						
 				if($mysqli->query($sql) === true){

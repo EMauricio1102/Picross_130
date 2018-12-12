@@ -174,6 +174,8 @@
 		var totalWinSpace = 0;
 		var Correct = 0;
 		var Wrong = 0;
+		var Score = 0;
+		var BoardSize = 0;
 
 		//Adjust the table size from select option
 		function changeTableSize(size) {
@@ -252,7 +254,8 @@
 					Correct++;
 					if (WinningNumer == totalWinSpace) {
 						clearInterval(timer);
-						$('.Timer').text("You have won! Final time: " + totalTime + " seconds");
+						Score = Math.max(((BoardSize -Correct) - Wrong), 0)/(BoardSize -Correct);
+						$('.Timer').text("Final time: " + totalTime + " sec Score: " + (Score.toFixed(2) *100));
 					}
 				} else {
 					Wrong++;
@@ -280,6 +283,7 @@
 
 			getSideNums(sampleArray);
 			getTopNums(sampleArray);
+			BoardSize = dimensions * dimensions;
 		}
 
 		//Get the consecutive numbers (left to right) as a string
@@ -363,10 +367,6 @@
     			$('.Timer').html("&emsp; Time: &emsp; &emsp;" + totalTime + " seconds");
 			}, 1000);
 		}
-
-		$('.cell').hover(function(){
-			$('.cell').css('background-color', '#42d7f4');
-		});
 	</script>
 </body>
 </html>

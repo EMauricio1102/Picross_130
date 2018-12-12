@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$email = $mysqli->real_escape_string($_POST['username']);
 		$password = md5($_POST['password']);
 	
-		$sql = "SELECT username FROM users WHERE password = '$password' AND (username = '$username' OR email = '$email')";
+		$sql = "SELECT username FROM Players WHERE password = '$password' AND (username = '$username' OR email = '$email')";
 	
 		if($mysqli->query($sql)){
 			$_SESSION['message'] = "Login successful!";
