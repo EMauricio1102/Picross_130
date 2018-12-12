@@ -10,6 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		
 		$username = $mysqli->real_escape_string($_POST['username']);
 		$email = $mysqli->real_escape_string($_POST['email']);
+		$firstname = $mysqli->real_escape_string($_POST['firstname']);
+		$lastname = $mysqli->real_escape_string($_POST['lastname']);
+		$age = $mysqli->real_escape_string($_POST['age']);
+		$gender = $mysqli->real_escape_string($_POST['gender']);
+		$location = $mysqli->real_escape_string($_POST['location']);
 		$password = md5($_POST['password']);
 		$avatar_path = $mysqli->real_escape_string('image/'.$_FILES['avatar']['name']);
 		
@@ -20,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_SESSION['username'] = $username;
 				$_SESSION['avatar'] = $avatar_path;
 				
-				$sql = "INSERT INTO Players (username, email, password, avatar) "
-						. "VALUES ('$username', '$email', '$password', '$avatar_path')";
+				$sql = "INSERT INTO Players (username, firstname, lastname, email, age, gender, location, password, avatar) "
+						. "VALUES ('$username', $firstname, $lastname, '$email', $age, $gender, $location, '$password', '$avatar_path')";
 						
 				if($mysqli->query($sql) === true){
 					$_SESSION['message'] = "Registration Successful! $username is added to the database!";
@@ -54,11 +59,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     <form class="form" action="PicrossReg.php" method="post" enctype="multipart/form-data" autocomplete="off">
       <div class="alert alert-error"><?= $_SESSION['message'] ?></div>
       <input type="text" placeholder="User Name" name="username" required />
+      <input type="text" placeholder="First Name" name="firstname" required />
+      <input type="text" placeholder="Last Name" name="lastname" required />
       <input type="email" placeholder="Email" name="email" required />
+      <input type="text" placeholder="Location" name="location" required />
       <input type="password" placeholder="Password" name="password" autocomplete="new-password" required />
       <input type="password" placeholder="Confirm Password" name="confirmpassword" autocomplete="new-password" required /><br><br>
+      Gender:
+      <input type="radio" name="gender" value="F">Female
+      <input type="radio" name="gender" value="M">Male
+      <input type="number" name="age" min="0" max="120" value="" required /> Age
 	  <div class="avatar"><label>Select your avatar: </label><input type="file" name="avatar" accept="image/*" required /></div><br>
       <input type="submit" value="Register" name="register" class="btn btn-block btn-primary" />
     </form>
   </div>
 </div>
+
+<!--		$firstname = $mysqli->real_escape_string($_POST['firstname']);
+		$lastname = $mysqli->real_escape_string($_POST['lastname']);
+		$age = $mysqli->real_escape_string($_POST['age']);
+		$gender $mysqli->real_escape_string($_POST['gender']);
+		$location $mysqli->real_escape_string($_POST['location']);<-->

@@ -28,12 +28,14 @@ if ($mysqli === false) {
 
 $createPlayers = "CREATE TABLE IF NOT EXISTS Players (
 					id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+					username VARCHAR(30) NOT NULL UNIQUE,
 					firstname VARCHAR(30) NOT NULL,
 					lastname VARCHAR(30) NOT NULL,
 					email VARCHAR(50),
 					age INT(6) UNSIGNED,
 					gender VARCHAR(1),
 					location VARCHAR(100),
+					password VARCHAR(255),
 					avatar VARCHAR(100),
 					reg_date TIMESTAMP
 				)";

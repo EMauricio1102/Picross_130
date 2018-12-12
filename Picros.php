@@ -177,7 +177,8 @@
 		var totalWinSpace = 0;
 		var Correct = 0;
 		var Wrong = 0;
-
+		var Score = 0;
+		var BoardSize = 0;
 		//Adjust the table size from select option
 		function changeTableSize(size) {
 			tableSize = size;
@@ -255,7 +256,9 @@
 					Correct++;
 					if (WinningNumer == totalWinSpace) {
 						clearInterval(timer);
-						$('.Timer').text("You have won! Final time: " + totalTime + " seconds");
+						var calcScore = Math.max(((BoardSize -Correct) - Wrong), 0)/(BoardSize -Correct);
+						Score = (calcScore.toFixed(2) *100);
+						$('.Timer').text("Final time: " + totalTime + " sec Score: " + Score);
 					}
 				} else {
 					Wrong++;
@@ -283,6 +286,7 @@
 
 			getSideNums(sampleArray);
 			getTopNums(sampleArray);
+			BoardSize = dimensions * dimensions;
 		}
 
 		//Get the consecutive numbers (left to right) as a string

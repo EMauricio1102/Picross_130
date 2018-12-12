@@ -13,15 +13,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$password = md5($_POST['password']);
 	
 		$sql = "SELECT username FROM Players WHERE password = '$password' AND (username = '$username' OR email = '$email')";
-	
-		if($mysqli->query($sql)){
+		$results = $mysqli->query($sql);
+		if($results->num_rows == 1){
+			$user = $results->fetch_assoc();
 			$_SESSION['message'] = "Login successful!";
 			$_SESSION['user_name'] = $username;
 			header("location: picros.php");
 			die();
 		}
 		else{
-			$_SESSION['message'] = $sql;
+			$_SESSION['message'] = "Information incorrect";
 		}
 	}
 	else {
