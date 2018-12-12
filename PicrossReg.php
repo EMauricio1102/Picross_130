@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$email = $mysqli->real_escape_string($_POST['email']);
 		$firstname = $mysqli->real_escape_string($_POST['firstname']);
 		$lastname = $mysqli->real_escape_string($_POST['lastname']);
-		$age = $mysqli->real_escape_string($_POST['age']);
+		$age = $_POST['age'];
 		$gender = $mysqli->real_escape_string($_POST['gender']);
 		$location = $mysqli->real_escape_string($_POST['location']);
 		$password = md5($_POST['password']);
@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				
 				$_SESSION['username'] = $username;
 				$_SESSION['avatar'] = $avatar_path;
-				
+									
 				$sql = "INSERT INTO Players (username, firstname, lastname, email, age, gender, location, password, avatar) "
-						. "VALUES ('$username', $firstname, $lastname, '$email', $age, $gender, $location, '$password', '$avatar_path')";
+						. "VALUES ('$username', '$firstname', '$lastname', '$email', $age, '$gender', '$location', '$password', '$avatar_path')";
 						
 				if($mysqli->query($sql) === true){
 					$_SESSION['message'] = "Registration Successful! $username is added to the database!";
@@ -74,9 +74,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     </form>
   </div>
 </div>
-
-<!--		$firstname = $mysqli->real_escape_string($_POST['firstname']);
-		$lastname = $mysqli->real_escape_string($_POST['lastname']);
-		$age = $mysqli->real_escape_string($_POST['age']);
-		$gender $mysqli->real_escape_string($_POST['gender']);
-		$location $mysqli->real_escape_string($_POST['location']);<-->
