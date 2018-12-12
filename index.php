@@ -33,10 +33,26 @@
 				-webkit-box-shadow:: 6px 6px 5px #999;
 				box-shadow:: 6px 6px 5px #999;
 			}
+			.b5{
+				width: 300px;
+				padding: 10px;
+				cursor: pointer;
+				font-size: 75%;
+				background: red;
+				color: #fff;
+				border: 1px solid #3366cc;
+				border-radius: 10px;
+				-moz-box-shadow:: 6px 6px 5px #999;
+				-webkit-box-shadow:: 6px 6px 5px #999;
+				box-shadow:: 6px 6px 5px #999;
+			}
 			
 		</style>
 	</head>
 	<body>
+		<form id="logoutbtn">
+			<a href="logout.php" class="b5">Logout</a>
+		</form>
 		<div id="Title">
 			<h1> WELCOME TO PICROSS-130 </h1>
 		</div>
