@@ -50,16 +50,12 @@
 		</style>
 	</head>
 	<body>
-		<form id="logoutbtn">
-			<a href="logout.php" class="b5">Logout</a>
-		</form>
 		<div id="Title">
 			<h1> WELCOME TO PICROSS-130 </h1>
 		</div>
 		<form id="buttons">
 			<a href="picros.php" class="b1">Play Game</a>
 			<a href="Tutorial.php" class="b2">Tutorial</a>
-			<a href="customize.php" class="b3">Customize</a>
 			<a href="leaderboard.php" class="b4">Leaderboards</a>
 		</form>
 	</body>

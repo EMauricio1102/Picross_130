@@ -46,6 +46,17 @@
 				border: 1px solid white;
 				border-collapse: collapse;
 			}
+			.top7 {
+				float:left;
+				display: flex;
+				margin-top: 100px;
+				margin-left: 35%
+			}
+			.top13 {
+				float:left;
+				display: flex;
+				margin-left: 75px;
+			}
 		</style>
 	</head>
 	<body>
@@ -59,7 +70,6 @@
 				echo "<a href=\"index.php\">Menu</a>";
 				echo "<a href=\"Picros.php\">Game</a>";
 				echo "<a href=\"Tutorial.php\">Tutorial</a>";
-				echo "<a href=\"customize.php\">Customize</a>";
 				echo "<a class=\"active\" href=\"leaderboard.php\">Leaderboards</a>";
 				echo "<a href=\"logout.php\">Logout</a>";
 				echo "<aside>".$user."</aside>";
@@ -69,11 +79,11 @@
 			}
 
 			//make tables
-
-			$getScoreBySeven = "select 10 from games where levelsize = 7 order by score";
+			//Highest Score 7x7
+			$getScoreBySeven = "select * from games where levelsize = 7 order by score desc LIMIT 10";
 			$results = $mysqli->query($getScoreBySeven);
 			if($results->num_rows > 0) {
-				echo "<table>";
+				echo "<div class=\"top7\"><table><caption>Top 10 Scores 7x7</caption>";
 				echo "<tr><th>Player</th><th>Level</th><th>Score</th><tr>";
 				while($row = $results->fetch_assoc()) {
 					echo "<tr><td>".$row['player_username']."</td>";
@@ -82,7 +92,21 @@
 				}
 				echo "</table>";
 			}
+
+			//Highest Score 13x13
+			$getScoreBySeven = "select * from games where levelsize = 13 order by score desc LIMIT 10";
+			$results = $mysqli->query($getScoreBySeven);
+			if($results->num_rows > 0) {
+				echo "<div class=\"top13\"><table><caption>Top 10 Scores 13x13</caption>";
+				echo "<tr><th>Player</th><th>Level</th><th>Score</th><tr>";
+				while($row = $results->fetch_assoc()) {
+					echo "<tr><td>".$row['player_username']."</td>";
+					echo "<td>".$row['levelsize']."x".$row['levelsize']."</td>";
+					echo "<td>".$row['score']."</td></tr>";
+				}
+				echo "</table></div>";
+			}
+
 		?>	
-		<img src="image/ChefBoyRD.jpeg" height="50" width="50">
 	</body>
 </html>

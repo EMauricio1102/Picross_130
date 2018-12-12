@@ -124,8 +124,8 @@
 			echo "<a href=\"index.php\">Menu</a>";
 			echo "<a class=\"active\" href=\"Picross.php\">Game</a>";
 			echo "<a href=\"Tutorial.php\">Tutorial</a>";
-			echo "<a href=\"customize.php\">Customize</a>";
 			echo "<a href=\"leaderboard.php\">Leaderboards</a>";
+			echo "<a href=\"logout.php\">Logout</a>";
 			echo "<aside>".$user."</aside>";
 			echo "</div>";
 			echo "<div class=\"Timer\">&emsp; &emsp;Time: &emsp; &emsp; 0 seconds</div>";

@@ -68,7 +68,6 @@
 				echo "<a href=\"index.php\">Menu</a>";
 				echo "<a href=\"Picros.php\">Game</a>";
 				echo "<a class=\"active\" href=\"Tutorial.php\">Tutorial</a>";
-				echo "<a href=\"customize.php\">Customize</a>";
 				echo "<a href=\"leaderboard.php\">Leaderboards</a>";
 				echo "<a href=\"logout.php\">Logout</a>";
 				echo "<aside>".$user."</aside>";
@@ -76,8 +75,7 @@
 			} else {
 				header("location: Login.php");
 			}
-		?>
-		<img src="image/ChefBoyRD.jpeg" height="50" width="50">		
+		?>	
 		<h1> How to Play Picross </h1>
 			<h2> What Is Picross? </h2>
 				<p> Picross is a mix between sudoku and minesweeper. </p> 
