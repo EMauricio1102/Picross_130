@@ -41,11 +41,11 @@ $createPlayers = "CREATE TABLE IF NOT EXISTS Players (
 				)";
 $createGames = "CREATE TABLE IF NOT EXISTS Games (
 					id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-					player_id INT(6) UNSIGNED,
+					player_username VARCHAR(30),
 					duration VARCHAR(255),
 					errors INT(6) UNSIGNED,
 					levelsize VARCHAR(10),	
-					score VARCHAR(100)
+					score INT(6)
 				)";
 $createLevels = "CREATE TABLE IF NOT EXISTS Levels(
 					id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,	

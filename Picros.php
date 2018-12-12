@@ -130,6 +130,7 @@
 			echo "</div>";
 			echo "<div class=\"Timer\">&emsp; &emsp;Time: &emsp; &emsp; 0 seconds</div>";
 			echo "<div class=\"ScoreBoard\">Correct: 0 &emsp; &emsp; &emsp; Wrong: 0 </div>";
+			echo "<div class=\"TotalBlocks\">Correct: 0 &emsp; &emsp; &emsp; Wrong: 0 </div>";
 		} else {
 			header("location: Login.php");
 		}
@@ -164,7 +165,9 @@
 	<!--Picros Game Script-->
 	<script type="text/javascript">
 		<?php
-
+			if (isset($_SESSION['user_name'])) {
+				echo "var player_username = \"".$_SESSION['user_name']."\";";
+			};
 		?>
 		//Grid variables
 		var sampleArray = [];
@@ -271,7 +274,29 @@
 							clearInterval(timer);
 							var calcScore = Math.max(((BoardSize -Correct) - Wrong), 0)/(BoardSize -Correct);
 							Score = (calcScore.toFixed(2) *100);
-							$('.Timer').text("Final time: " + totalTime + " sec Score: " + Score);
+							$('.Timer').text("Final time: " + totalTime + " seconds");
+							$('.TotalBlocks').text(" Score: " + Score);
+							pauseGame = true;
+							var winGameData = { 
+								'player_username': player_username,
+								'duration': totalTime,
+								'errors': Wrong, 
+								'levelsize': tableSize,
+								'score': Score
+							};
+
+							console.log(winGameData);
+							$.ajax({
+								url: 'SaveGame.php',
+								type: 'post',
+								data: winGameData,
+								success: function(data) {
+									console.log("Saved!");
+								},
+								error: function(err) {
+									console.log("Failed!");
+								}
+							});
 						}
 					} else {
 						Wrong++;
@@ -286,6 +311,7 @@
 					}
 					$(colorIndex).toggleClass('hidden');
 					$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; Wrong: " + Wrong);
+					if(!pauseGame) $('.TotalBlocks').html("Total Blocks: " + TotalBlocks + " &emsp; &emsp; Revealed: " + Revealed);
 				}
 			} else {
 				alert("Please start a new game!");
@@ -307,10 +333,9 @@
 					}
 				}
 			}
-			console.log(totalWinSpace);
 			getSideNums(sampleArray);
 			getTopNums(sampleArray);
-			BoardSize = dimensions * dimensions;
+			TotalBlocks = BoardSize = dimensions * dimensions;
 		}
 
 		//Get the consecutive numbers (left to right) as a string
@@ -394,10 +419,6 @@
     			$('.Timer').html("&emsp; Time: &emsp; &emsp;" + totalTime + " seconds");
 			}, 1000);
 		}
-
-		$('.cell').hover(function(){
-			$('.cell').css('background-color', '#42d7f4');
-		});
 	</script>
 </body>
 </html>
