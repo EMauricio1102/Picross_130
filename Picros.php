@@ -48,9 +48,13 @@
 			border: 1px solid black;
 		}
 
-		.Timer, .ScoreBoard{
+		.Timer, .ScoreBoard, .TotalBlocks{
 			font-size: 20px;
 			margin-left: 40%
+		}
+
+		.hidden td:hover {
+			background-color: black;
 		}
 
 		.displayHint {
@@ -104,13 +108,12 @@
 			position: absolute;
 		}
 		#tableCreate{
-			margin-top: 25px;
-		
+			margin-top: 25px;	
 		}
 
 	</style>
 </head>
-<body onload="changeTableSize(7);makeTable();start()">
+<body onload="changeTableSize(7);makeTable()">
 
 	
 	<?php
@@ -140,7 +143,7 @@
 				<option value="7">7</option>
 				<option value="13">13</option>	
 			</select><br>
-			<button onclick="makeTable()">New Game</button>
+			<button onclick="pauseOff();makeTable()">New Random Game</button>
 		<br><br>
 		<!--Change Board -->
 			<label><u>Board Color</u></label><br>
@@ -160,6 +163,9 @@
 
 	<!--Picros Game Script-->
 	<script type="text/javascript">
+		<?php
+
+		?>
 		//Grid variables
 		var sampleArray = [];
 		var topNums = [];
@@ -173,23 +179,28 @@
 		var totalTime = 0;
 		var timer;
 		//Game variables
-		var WinningNumer = 0;
 		var totalWinSpace = 0;
 		var Correct = 0;
 		var Wrong = 0;
 		var Score = 0;
 		var BoardSize = 0;
+		var pauseGame = true;
+		var TotalBlocks;
+		var Revealed = 0;
 		//Adjust the table size from select option
 		function changeTableSize(size) {
 			tableSize = size;
 			displayHintSize = tableSize/2;
 		}
 
+		//Unpause
+		function pauseOff() { pauseGame = false;}
+
 		//use JQuery add table rows and td to tableCreate id
 		function makeTable() {
 			$('#tableCreate').empty();
 
-			makePico(tableSize);
+			makeRandomPico(tableSize);
 
 			//Create table body with adjusted top and sides for displaying hints
 			$('#tableCreate').append("<tbody>");
@@ -242,48 +253,61 @@
 
 			$('.hidden').css('background-color', 'rgb('+BlockR+','+BlockG+','+BlockB+')');
 			$('.cell').css('border-color', 'rgb('+GridR+','+GridG+','+GridB+')');
-			start();
+			if(!pauseGame) start();
 			$('.ScoreBoard').html("Correct: 0 &emsp; &emsp; &emsp; Wrong: 0");
+			Correct = Wrong = 0;
+			$('.TotalBlocks').html("Total Blocks: " + TotalBlocks + " &emsp; &emsp; Revealed: 0");
 		}
 
 		//Change color of cells on click
 		function changeColor(i,j) {
-			var colorIndex = "#td"+i+"_"+j;
-			if($(colorIndex).hasClass('hidden')) {
-				if (sampleArray[i][j]) {
-					$(colorIndex).css("background-color", "blue");
-					WinningNumer++;
-					Correct++;
-					if (WinningNumer == totalWinSpace) {
-						clearInterval(timer);
-						var calcScore = Math.max(((BoardSize -Correct) - Wrong), 0)/(BoardSize -Correct);
-						Score = (calcScore.toFixed(2) *100);
-						$('.Timer').text("Final time: " + totalTime + " sec Score: " + Score);
+			if(!pauseGame) {
+				var colorIndex = "#td"+i+"_"+j;
+				if($(colorIndex).hasClass('hidden')) {
+					if (sampleArray[i][j]) {
+						$(colorIndex).css("background-color", "blue");
+						Correct++;
+						if (Correct == totalWinSpace) {
+							clearInterval(timer);
+							var calcScore = Math.max(((BoardSize -Correct) - Wrong), 0)/(BoardSize -Correct);
+							Score = (calcScore.toFixed(2) *100);
+							$('.Timer').text("Final time: " + totalTime + " sec Score: " + Score);
+						}
+					} else {
+						Wrong++;
+						$(colorIndex).css("background-color", "silver");
+						$(colorIndex).css("background-color", "grey");
+						$(colorIndex).html("X");
+						$(colorIndex).css("color", "red");
+						$(colorIndex).css("text-align", "center");
+						if(tableSize < 10) $(colorIndex).css("font-size", "25px");
+						else $(colorIndex).css("font-size", "10px");
+						Revealed++;
 					}
-				} else {
-					Wrong++;
-					$(colorIndex).css("background-color", "grey");
+					$(colorIndex).toggleClass('hidden');
+					$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; Wrong: " + Wrong);
 				}
-				$(colorIndex).toggleClass('hidden');
-				$('.ScoreBoard').html("Correct: " + Correct + " &emsp; &emsp; &emsp; Wrong: " + Wrong);
+			} else {
+				alert("Please start a new game!");
 			}
 		}
 
 		//Make a random Pico board
-		function makePico(dimensions) {
+		function makeRandomPico(dimensions) {
+			totalWinSpace = 0;
 			for (var i = 0; i < dimensions; i++) {
 				sampleArray[i] = [];
 				for (var j = 0; j < dimensions; j++) {
 					var hotSpot = Math.floor(Math.random() * Math.floor(2));
 					if (hotSpot) {
 						sampleArray[i][j] = hotSpot;
-						++totalWinSpace;
+						totalWinSpace++;
 					} else {
 						sampleArray[i][j] = 0;
 					}
 				}
 			}
-
+			console.log(totalWinSpace);
 			getSideNums(sampleArray);
 			getTopNums(sampleArray);
 			BoardSize = dimensions * dimensions;

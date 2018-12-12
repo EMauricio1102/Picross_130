@@ -17,7 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		if($results->num_rows == 1){
 			$user = $results->fetch_assoc();
 			$_SESSION['message'] = "Login successful!";
-			$_SESSION['user_name'] = $username;
+			$_SESSION['user_name'] = $user['username'];
+			$_SESSION['player_id'] = $user['id'];
+			$_SESSION['avatar'] = $user['avatar'];
 			header("location: picros.php");
 			die();
 		}
