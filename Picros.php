@@ -128,6 +128,7 @@
 			echo "<a href=\"logout.php\">Logout</a>";
 			echo "<aside>".$user."</aside>";
 			echo "</div>";
+			echo "<img src=\"".$_SESSION['avatar']."\" height=\"50\" width=\"50\">";
 			echo "<div class=\"Timer\">&emsp; &emsp;Time: &emsp; &emsp; 0 seconds</div>";
 			echo "<div class=\"ScoreBoard\">Correct: 0 &emsp; &emsp; &emsp; Wrong: 0 </div>";
 			echo "<div class=\"TotalBlocks\">Correct: 0 &emsp; &emsp; &emsp; Wrong: 0 </div>";

@@ -72,6 +72,7 @@
 				echo "<a href=\"logout.php\">Logout</a>";
 				echo "<aside>".$user."</aside>";
 				echo "</div>";
+				echo "<img src=\"".$_SESSION['avatar']."\" height=\"50\" width=\"50\">";
 			} else {
 				header("location: Login.php");
 			}
