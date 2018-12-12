@@ -61,8 +61,11 @@
 			if(isset($_SESSION['user_name'])){
 				$user = $_SESSION['user_name'];
 				echo "<div class=\"topnav\">";
+				echo "<a href=\"index.php\">Menu</a>";
 				echo "<a href=\"Picros.php\">Game</a>";
 				echo "<a class=\"active\" href=\"Tutorial.php\">Tutorial</a>";
+				echo "<a href=\"customize.php\">Customize</a>";
+				echo "<a href=\"leaderboard.php\">Leaderboards</a>";
 				echo "<aside>".$user."</aside>";
 				echo "</div>";
 			} else {

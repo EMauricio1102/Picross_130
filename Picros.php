@@ -118,8 +118,11 @@
 		if(isset($_SESSION['user_name'])){
 			$user = $_SESSION['user_name'];
 			echo "<div class=\"topnav\">";
+			echo "<a href=\"index.php\">Menu</a>";
 			echo "<a class=\"active\" href=\"Picross.php\">Game</a>";
 			echo "<a href=\"Tutorial.php\">Tutorial</a>";
+			echo "<a href=\"customize.php\">Customize</a>";
+			echo "<a href=\"leaderboard.php\">Leaderboards</a>";
 			echo "<aside>".$user."</aside>";
 			echo "</div>";
 			echo "<div class=\"Timer\">&emsp; &emsp;Time: &emsp; &emsp; 0 seconds</div>";
@@ -174,8 +177,6 @@
 		var totalWinSpace = 0;
 		var Correct = 0;
 		var Wrong = 0;
-		var Score = 0;
-		var BoardSize = 0;
 
 		//Adjust the table size from select option
 		function changeTableSize(size) {
@@ -254,8 +255,7 @@
 					Correct++;
 					if (WinningNumer == totalWinSpace) {
 						clearInterval(timer);
-						Score = Math.max(((BoardSize -Correct) - Wrong), 0)/(BoardSize -Correct);
-						$('.Timer').text("Final time: " + totalTime + " sec Score: " + (Score.toFixed(2) *100));
+						$('.Timer').text("You have won! Final time: " + totalTime + " seconds");
 					}
 				} else {
 					Wrong++;
@@ -283,7 +283,6 @@
 
 			getSideNums(sampleArray);
 			getTopNums(sampleArray);
-			BoardSize = dimensions * dimensions;
 		}
 
 		//Get the consecutive numbers (left to right) as a string
@@ -367,6 +366,10 @@
     			$('.Timer').html("&emsp; Time: &emsp; &emsp;" + totalTime + " seconds");
 			}, 1000);
 		}
+
+		$('.cell').hover(function(){
+			$('.cell').css('background-color', '#42d7f4');
+		});
 	</script>
 </body>
 </html>
