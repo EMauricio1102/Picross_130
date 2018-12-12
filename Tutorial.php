@@ -3,57 +3,61 @@
 	<head>
 		<title> Picross Tutorial </title>
 		<style>
-		h1 { 
-			text-align: center;
-			text-decoration: underline;
-		}
-		h2 {
-			background-color: #00aeff; 
-			padding: 10px;
-		}
-		h3{
-			text-decoration: underline;
-		}
-		body{
-			font-family: Arial Helvetica, sans-serif;
-			color: white;
-			background-color: #24478f;
-		}
-		.topnav {
-			margin: 0;
-			padding: 0;
-		  	overflow: hidden;
-		  	background-color: #173048;
-		}
+			html body {
+					margin: 0;
+					padding: 0;
+				}
+			h1 { 
+				text-align: center;
+				text-decoration: underline;
+			}
+			h2 {
+				background-color: #00aeff; 
+				padding: 10px;
+			}
+			h3{
+				text-decoration: underline;
+			}
+			body{
+				font-family: Arial Helvetica, sans-serif;
+				color: white;
+				background-color: #24478f;
+			}
+			.topnav {
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #173048;
+			}
 
-		.topnav a {
-		  float: right;
-		  color: #f2f2f2;
-		  text-align: center;
-		  padding: 14px 16px;
-		  text-decoration: none;
-		  font-size: 17px;
-		}
+			.topnav a {
+			  float: right;
+			  color: #f2f2f2;
+			  text-align: center;
+			  padding: 14px 16px;
+			  text-decoration: none;
+			  font-size: 17px;
+			}
 
-		.topnav aside {
-			float: left;
-		  	color: #f2f2f2;
-		  	text-align: center;
-		  	padding: 14px 16px;
-		  	text-decoration: none;
-		  	font-size: 17px;
-		}
+			.topnav aside {
+				float: left;
+				color: #f2f2f2;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+				font-size: 17px;
+			}
 
-		.topnav a:hover {
-		  background-color: #ddd;
-		  color: black;
-		}
+			.topnav a:hover {
+			  background-color: #ddd;
+			  color: black;
+			}
 
-		.topnav a.active {
-		  background-color: #21b0f1;
-		  color: white;
-		}
-	</style>
+			.topnav a.active {
+			  background-color: #21b0f1;
+			  color: white;
+			}
+		</style>
 	</head>
 	<body>
 		<?php
@@ -66,12 +70,14 @@
 				echo "<a class=\"active\" href=\"Tutorial.php\">Tutorial</a>";
 				echo "<a href=\"customize.php\">Customize</a>";
 				echo "<a href=\"leaderboard.php\">Leaderboards</a>";
+				echo "<a href=\"logout.php\">Logout</a>";
 				echo "<aside>".$user."</aside>";
 				echo "</div>";
 			} else {
 				header("location: Login.php");
 			}
 		?>
+		<img src="image/ChefBoyRD.jpeg" height="50" width="50">		
 		<h1> How to Play Picross </h1>
 			<h2> What Is Picross? </h2>
 				<p> Picross is a mix between sudoku and minesweeper. </p> 

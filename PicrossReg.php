@@ -1,3 +1,59 @@
+<style>
+			html body {
+					margin: 0;
+					padding: 0;
+				}
+			h1 { 
+				text-align: center;
+				text-decoration: underline;
+			}
+			h2 {
+				background-color: #00aeff; 
+				padding: 10px;
+			}
+			h3{
+				text-decoration: underline;
+			}
+			body{
+				font-family: Arial Helvetica, sans-serif;
+				color: white;
+				background-color: #24478f;
+			}
+			.topnav {
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #173048;
+			}
+
+			.topnav a {
+			  float: right;
+			  color: #f2f2f2;
+			  text-align: center;
+			  padding: 14px 16px;
+			  text-decoration: none;
+			  font-size: 17px;
+			}
+
+			.topnav aside {
+				float: left;
+				color: #f2f2f2;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+				font-size: 17px;
+			}
+
+			.topnav a:hover {
+			  background-color: #ddd;
+			  color: black;
+			}
+
+			.topnav a.active {
+			  background-color: #21b0f1;
+			  color: white;
+			}
+</style>
 <?php
 //Config file
 require_once 'config_mysql.php';
@@ -31,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				if($mysqli->query($sql) === true){
 					$_SESSION['message'] = "Registration Successful! $username is added to the database!";
 					$_SESSION['user_name'] = $username;
-					header("location: picros.php");
+					header("location: index.php");
 				}		
 				else{
 					$_SESSION['message'] = "User could not be added to the database.";
@@ -49,6 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$_SESSION['message'] = "Your confirmed password did NOT match with your initial password.";
 	}
 }
+echo "<div class=\"topnav\">";
+echo "<a href=\"Login.php\">Login</a>";
+echo "</div>";
 ?>
 
 <link href="//db.onlinewebfonts.com/c/a4e256ed67403c6ad5d43937ed48a77b?family=Core+Sans+N+W01+35+Light" rel="stylesheet" type="text/css"/>
@@ -69,6 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       <input type="radio" name="gender" value="F">Female
       <input type="radio" name="gender" value="M">Male
       <input type="number" name="age" min="0" max="120" value="" required /> Age
+	  <br>
+	  <br>
 	  <div class="avatar"><label>Select your avatar: </label><input type="file" name="avatar" accept="image/*" required /></div><br>
       <input type="submit" value="Register" name="register" class="btn btn-block btn-primary" />
     </form>

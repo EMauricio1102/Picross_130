@@ -61,6 +61,7 @@
 				echo "<a href=\"Tutorial.php\">Tutorial</a>";
 				echo "<a href=\"customize.php\">Customize</a>";
 				echo "<a class=\"active\" href=\"leaderboard.php\">Leaderboards</a>";
+				echo "<a href=\"logout.php\">Logout</a>";
 				echo "<aside>".$user."</aside>";
 				echo "</div>";
 			} else {
@@ -82,5 +83,6 @@
 				echo "</table>";
 			}
 		?>	
+		<img src="image/ChefBoyRD.jpeg" height="50" width="50">
 	</body>
 </html>
