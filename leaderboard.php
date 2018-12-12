@@ -42,10 +42,16 @@
 			  background-color: #21b0f1;
 			  color: white;
 			}
+			table, th, td {
+				border: 1px solid white;
+				border-collapse: collapse;
+			}
 		</style>
 	</head>
 	<body>
 		<?php
+			//Config file
+			require_once 'config_mysql.php';
 			session_start();
 			if(isset($_SESSION['user_name'])){
 				$user = $_SESSION['user_name'];
@@ -59,6 +65,21 @@
 				echo "</div>";
 			} else {
 				header("location: Login.php");
+			}
+
+			//make tables
+
+			$getScoreBySeven = "select 10 from games where levelsize = 7 order by score";
+			$results = $mysqli->query($getScoreBySeven);
+			if($results->num_rows > 0) {
+				echo "<table>";
+				echo "<tr><th>Player</th><th>Level</th><th>Score</th><tr>";
+				while($row = $results->fetch_assoc()) {
+					echo "<tr><td>".$row['player_username']."</td>";
+					echo "<td>".$row['levelsize']."x".$row['levelsize']."</td>";
+					echo "<td>".$row['score']."</td></tr>";
+				}
+				echo "</table>";
 			}
 		?>	
 	</body>
