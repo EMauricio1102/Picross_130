@@ -71,6 +71,7 @@
 				echo "<a href=\"Picros.php\">Game</a>";
 				echo "<a href=\"Tutorial.php\">Tutorial</a>";
 				echo "<a class=\"active\" href=\"leaderboard.php\">Leaderboards</a>";
+				echo "<a href=\"about.php\">About Us</a>";
 				echo "<a href=\"logout.php\">Logout</a>";
 				echo "<aside>".$user."</aside>";
 				echo "</div>";
