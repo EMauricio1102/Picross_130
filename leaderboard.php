@@ -46,6 +46,7 @@
 				border: 1px solid white;
 				border-collapse: collapse;
 			}
+
 			.top7 {
 				float:left;
 				display: flex;
@@ -85,7 +86,7 @@
 			$getScoreBySeven = "select * from games where levelsize = 7 order by score desc LIMIT 10";
 			$results = $mysqli->query($getScoreBySeven);
 			if($results->num_rows > 0) {
-				echo "<div class=\"top7\"><table><caption>Top 10 Scores 7x7</caption>";
+				echo "<br><br><br><br><table style=\"width:25%;display:inline-block\"><caption>Top 10 Scores <br> 7x7</caption>";
 				echo "<tr><th>Player</th><th>Level</th><th>Score</th><tr>";
 				while($row = $results->fetch_assoc()) {
 					echo "<tr><td>".$row['player_username']."</td>";
@@ -99,16 +100,43 @@
 			$getScoreBySeven = "select * from games where levelsize = 13 order by score desc LIMIT 10";
 			$results = $mysqli->query($getScoreBySeven);
 			if($results->num_rows > 0) {
-				echo "<div class=\"top13\"><table><caption>Top 10 Scores 13x13</caption>";
+				echo "<table style=\"width:25%;display:inline-block\"><caption>Top 10 Scores 13x13</caption>";
 				echo "<tr><th>Player</th><th>Level</th><th>Score</th><tr>";
 				while($row = $results->fetch_assoc()) {
 					echo "<tr><td>".$row['player_username']."</td>";
 					echo "<td>".$row['levelsize']."x".$row['levelsize']."</td>";
 					echo "<td>".$row['score']."</td></tr>";
 				}
-				echo "</table></div>";
+				echo "</table>";
+			}
+			//make tables
+			//Best Time 7x7
+			$getScoreBySeven = "select * from games where levelsize = 7 order by duration desc LIMIT 10";
+			$results = $mysqli->query($getScoreBySeven);
+			if($results->num_rows > 0) {
+				echo "<table style=\"width:25%;display:inline-block\"><caption>Top 10 By Time <br>7x7</caption>";
+				echo "<tr><th>Player</th><th>Level</th><th>Time</th><tr>";
+				while($row = $results->fetch_assoc()) {
+					echo "<tr><td>".$row['player_username']."</td>";
+					echo "<td>".$row['levelsize']."x".$row['levelsize']."</td>";
+					echo "<td>".$row['duration']."</td></tr>";
+				}
+				echo "</table>";
 			}
 
+			//Best Time 13x13
+			$getScoreBySeven = "select * from games where levelsize = 13 order by duration desc LIMIT 10";
+			$results = $mysqli->query($getScoreBySeven);
+			if($results->num_rows > 0) {
+				echo "<table style=\"width:25%;display:inline-block\"><caption>Top 10 By Time 13x13</caption>";
+				echo "<tr><th>Player</th><th>Level</th><th>Time</th><tr>";
+				while($row = $results->fetch_assoc()) {
+					echo "<tr><td>".$row['player_username']."</td>";
+					echo "<td>".$row['levelsize']."x".$row['levelsize']."</td>";
+					echo "<td>".$row['duration']."</td></tr>";
+				}
+				echo "</table>";
+			}
 		?>	
 	</body>
 </html>
